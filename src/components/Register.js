@@ -28,7 +28,7 @@ function Register() {
         </button>
       </form>
       <div>
-        <Link to="">Уже зарегистрированы? Войти</Link>
+        <Link to="/login">Уже зарегистрированы? Войти</Link>
       </div>
     </div>
   );

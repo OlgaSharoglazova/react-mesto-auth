@@ -23,6 +23,7 @@ function App() {
   React.useEffect(() => {
     getInfoUser();
     getCards();
+    //eslint-disable-next-line
   }, []);
 
   function getInfoUser() {
