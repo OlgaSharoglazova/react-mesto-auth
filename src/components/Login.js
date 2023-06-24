@@ -1,7 +1,7 @@
-function Register() {
+function Login() {
   return (
     <div className="auth">
-      <h2 className="auth__title">Регистрация</h2>
+      <h2 className="auth__title">Вход</h2>
       <form
         className="auth__form"
         name="form-register"
@@ -29,14 +29,11 @@ function Register() {
         ></input>
         <span className="auth__input-error" />
         <button className="auth__button" type="submit">
-          Зарегистрироваться
+          Войти
         </button>
       </form>
-      <div className="auth__login">
-        <Link to="/login" className="auth__login-link">Уже зарегистрированы? Войти</Link>
-      </div>
     </div>
   );
 }
 
-export default Register;
+export default Login;
