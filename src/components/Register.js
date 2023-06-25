@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Register() {
+function Register({onInfoTooltip}) {
   return (
     <div className="auth">
       <div className="auth__container">
@@ -27,7 +27,7 @@ function Register() {
             id="input-password"
           ></input>
           <span className="auth__input-error" />
-          <button className="auth__button" type="submit">
+          <button className="auth__button" type="submit" onClick={onInfoTooltip}>
             Зарегистрироваться
           </button>
         </form>

@@ -12,6 +12,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Routes, Route } from "react-router-dom";
 import Register from "./Register.js";
 import Login from "./Login.js";
+import InfoTooltip from "./InfoTooltip.js";
 
 function App() {
   const [isEditProfilePopupOpen, setisEditProfilePopupOpen] =
@@ -19,6 +20,7 @@ function App() {
   const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] =
     React.useState(false);
+    const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
   const [selectedCard, setselectedCard] = React.useState(null);
   const [currentUser, setСurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
@@ -126,6 +128,9 @@ function App() {
   function handleEditAvatarClick() {
     setisEditAvatarPopupOpen(true);
   }
+  function handleInfoTooltipOpen() {
+    setisInfoTooltipOpen(true);
+  }
   function closeAllPopups() {
     setisEditProfilePopupOpen(false);
     setisAddPlacePopupOpen(false);
@@ -147,7 +152,7 @@ function App() {
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
                 cards={cards} />} />
-            <Route path="/sign-up" element={<Register />} />
+            <Route path="/sign-up" element={<Register onInfoTooltip={handleInfoTooltipOpen} />} />
             <Route path="/sign-in" element={<Login />} />
           </Routes>
           <Footer />
@@ -173,6 +178,8 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups}></ImagePopup>
+        <InfoTooltip isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}></InfoTooltip>
       </div>
     </CurrentUserContext.Provider>
   );
