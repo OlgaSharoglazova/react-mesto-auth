@@ -1,7 +1,11 @@
 .header__link {
-  color: #A9A9A9;
+  color: #FFFFFF;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
   text-decoration: none;
 }
+
+.header__link:hover {
+    opacity: 0.6;
+  }
