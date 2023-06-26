@@ -7,7 +7,7 @@ function Header() {
       <div className="header__logo" />
       <div className="header__navigation">
         <p className="header__email">email@mail.com</p>
-        <Link to="/sign-in" className="header__link">Выйти</Link>
+        <Link to="/signin" className="header__link">Выйти</Link>
       </div>
     </header>
   );

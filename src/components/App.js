@@ -13,6 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./Register.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [isEditProfilePopupOpen, setisEditProfilePopupOpen] =
@@ -24,6 +25,7 @@ function App() {
   const [selectedCard, setselectedCard] = React.useState(null);
   const [currentUser, setСurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [isLoggedIn, setisLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     getInfoUser();
@@ -144,7 +146,8 @@ function App() {
         <div className="content">
           <Header />
           <Routes>
-            <Route exact path="/" element={<Main
+            <Route exact path="/" element={<ProtectedRoute element={Main}
+                isLoggedIn={isLoggedIn}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
@@ -152,8 +155,8 @@ function App() {
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
                 cards={cards} />} />
-            <Route path="/sign-up" element={<Register onInfoTooltip={handleInfoTooltipOpen} />} />
-            <Route path="/sign-in" element={<Login />} />
+            <Route path="/signup" element={<Register onInfoTooltip={handleInfoTooltipOpen} />} />
+            <Route path="/signin" element={<Login />} />
           </Routes>
           <Footer />
         </div>
