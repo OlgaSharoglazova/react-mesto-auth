@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import * as auth from "../utils/auth";
 
 function Register({ onInfoTooltip }) {
   const [formValue, setFormValue] = React.useState({ email: "", password: "" });
@@ -10,7 +11,16 @@ function Register({ onInfoTooltip }) {
   };
 
   const handleSubmit = (evt) => {
+    const { email, password } = formValue;
+
     evt.preventDefault();
+
+    auth
+      .register(email, password)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(`Ошибка: ${err}`));
   };
 
   return (
