@@ -38,7 +38,7 @@ function Register({ onInfoTooltip }) {
           <span className="auth__input-error" />
           <input
             className="auth__input auth__input-password"
-            type="text"
+            type="password"
             name="password"
             minLength={6}
             maxLength={20}
