@@ -8,6 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api";
+import * as auth from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Routes, Route } from "react-router-dom";
 import Register from "./Register.js";
@@ -26,6 +27,11 @@ function App() {
   const [currentUser, setСurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoggedIn, setisLoggedIn] = React.useState(false);
+
+  const checkToken = () => {
+    const token = localStorage.getItem("token");
+    auth.checkToken(token).then().catch((err) => console.log(`Ошибка: ${err}`));
+  }
 
   React.useEffect(() => {
     getInfoUser();
@@ -157,7 +163,7 @@ function App() {
                 onCardDelete={handleCardDelete}
                 cards={cards} />} />
             <Route path="/signup" element={<Register onInfoTooltip={handleInfoTooltipOpen} />} />
-            <Route path="/signin" element={<Login />} />
+            <Route path="/signin" element={<Login handleLogin={() => setisLoggedIn(true)} />} />
           </Routes>
           <Footer />
         </div>
