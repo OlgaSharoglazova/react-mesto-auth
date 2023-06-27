@@ -138,6 +138,7 @@ function App() {
     setisAddPlacePopupOpen(false);
     setisEditAvatarPopupOpen(false);
     setselectedCard(null);
+    setisInfoTooltipOpen(false);
   }
 
   return (
