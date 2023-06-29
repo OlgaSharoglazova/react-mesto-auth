@@ -28,6 +28,8 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [isLoggedIn, setisLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({});
+  const [isSuccess, setIsSuccess] = React.useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -81,6 +83,19 @@ function App() {
         );
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
+  }
+
+  function handleRegister(email, password) {
+    auth
+      .register(email, password)
+      .then(() => {
+        setIsSuccess(true);
+        navigate("/signin");
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+        setIsSuccess(false);
+      });
   }
 
   function handleAddPlaceSubmit(data) {
@@ -193,7 +208,7 @@ function App() {
             />
             <Route
               path="/signup"
-              element={<Register onInfoTooltip={handleInfoTooltipOpen} />}
+              element={<Register onInfoTooltip={handleInfoTooltipOpen} handleRegister={handleRegister} />}
             />
             <Route
               path="/signin"
@@ -226,6 +241,7 @@ function App() {
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
+          isSuccess={isSuccess}
         ></InfoTooltip>
       </div>
     </CurrentUserContext.Provider>

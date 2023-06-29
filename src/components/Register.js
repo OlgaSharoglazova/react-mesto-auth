@@ -1,11 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import * as auth from "../utils/auth";
+import { Link } from "react-router-dom";
 
-function Register({ onInfoTooltip }) {
+function Register({ onInfoTooltip, handleRegister }) {
   const [formValue, setFormValue] = React.useState({ email: "", password: "" });
-
-  const navigate = useNavigate();
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -17,12 +14,7 @@ function Register({ onInfoTooltip }) {
 
     evt.preventDefault();
 
-    auth
-      .register(email, password)
-      .then((data) => {
-        navigate("/signin");
-      })
-      .catch((err) => console.log(`Ошибка: ${err}`));
+    handleRegister(email, password)
   };
 
   return (
