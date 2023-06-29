@@ -10,7 +10,7 @@ import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api";
 import * as auth from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Register from "./Register.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
@@ -27,11 +27,25 @@ function App() {
   const [currentUser, setСurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoggedIn, setisLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({});
+  const navigate = useNavigate();
 
   const checkToken = () => {
-    const token = localStorage.getItem("token");
-    auth.checkToken(token).then().catch((err) => console.log(`Ошибка: ${err}`));
+    const token = localStorage.getItem("jwt");
+    auth.checkToken(token).then((data) => {
+      if(!data) {
+        return;
+      } 
+        setUserData(data)
+        setisLoggedIn(true);
+        navigate("/");
+    }).catch((err) => setisLoggedIn(false));
   }
+
+  React.useEffect(() => {
+    checkToken();
+    //eslint-disable-next-line
+  }, [])
 
   React.useEffect(() => {
     getInfoUser();
@@ -151,7 +165,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="content">
-          <Header />
+          <Header userData={userData}/>
           <Routes>
             <Route exact path="/" element={<ProtectedRoute element={Main}
                 isLoggedIn={isLoggedIn}
