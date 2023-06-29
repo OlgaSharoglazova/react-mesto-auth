@@ -1,4 +1,7 @@
-.header__link {
+.header__button {
+  background-color: #000000;
+  border: none;
+  cursor: pointer;
   color: #FFFFFF;
   font-weight: 400;
   font-size: 18px;
@@ -6,6 +9,6 @@
   text-decoration: none;
 }
 
-.header__link:hover {
+.header__button:hover {
     opacity: 0.6;
   }

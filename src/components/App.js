@@ -10,7 +10,7 @@ import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api";
 import * as auth from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Register from "./Register.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
@@ -22,30 +22,37 @@ function App() {
   const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] =
     React.useState(false);
-    const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
   const [selectedCard, setselectedCard] = React.useState(null);
   const [currentUser, setСurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoggedIn, setisLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({});
   const navigate = useNavigate();
+  const location = useLocation();
 
   const checkToken = () => {
     const token = localStorage.getItem("jwt");
-    auth.checkToken(token).then((data) => {
-      if(!data) {
-        return;
-      } 
-        setUserData(data)
+    auth
+      .checkToken(token)
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setUserData(data);
         setisLoggedIn(true);
-        navigate("/");
-    }).catch((err) => setisLoggedIn(false));
-  }
+        navigate(location.pathname);
+      })
+      .catch((err) => {
+        setisLoggedIn(false);
+        setUserData({});
+      });
+  };
 
   React.useEffect(() => {
     checkToken();
     //eslint-disable-next-line
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     getInfoUser();
@@ -165,19 +172,33 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="content">
-          <Header userData={userData}/>
+          <Header userData={userData} />
           <Routes>
-            <Route exact path="/" element={<ProtectedRoute element={Main}
-                isLoggedIn={isLoggedIn}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                cards={cards} />} />
-            <Route path="/signup" element={<Register onInfoTooltip={handleInfoTooltipOpen} />} />
-            <Route path="/signin" element={<Login handleLogin={() => setisLoggedIn(true)} />} />
+            <Route
+              exact
+              path="/"
+              element={
+                <ProtectedRoute
+                  element={Main}
+                  isLoggedIn={isLoggedIn}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  cards={cards}
+                />
+              }
+            />
+            <Route
+              path="/signup"
+              element={<Register onInfoTooltip={handleInfoTooltipOpen} />}
+            />
+            <Route
+              path="/signin"
+              element={<Login handleLogin={() => setisLoggedIn(true)} />}
+            />
           </Routes>
           <Footer />
         </div>
@@ -202,8 +223,10 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups}></ImagePopup>
-        <InfoTooltip isOpen={isInfoTooltipOpen}
-          onClose={closeAllPopups}></InfoTooltip>
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}
+        ></InfoTooltip>
       </div>
     </CurrentUserContext.Provider>
   );
