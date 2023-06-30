@@ -106,7 +106,7 @@ function App() {
     api
       .addCard(data)
       .then((newCard) => {
-        getCards([newCard, ...cards]);
+        setCards([newCard, ...cards]);
       })
       .then(() => {
         closeAllPopups();
@@ -122,7 +122,7 @@ function App() {
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        getCards((state) =>
+        setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
         );
       })
@@ -149,8 +149,7 @@ function App() {
     api
       .deleteCard(card._id)
       .then(() => {
-        const newCards = cards.filter((c) => c._id !== card._id);
-        getCards(newCards);
+        setCards((state) => state.filter((item) => item._id !== card._id));
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   }
