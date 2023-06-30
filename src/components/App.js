@@ -22,13 +22,14 @@ function App() {
   const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] =
     React.useState(false);
-  const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [selectedCard, setselectedCard] = React.useState(null);
   const [currentUser, setСurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoggedIn, setisLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({});
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -95,7 +96,10 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
         setIsSuccess(false);
-      });
+      })
+      .finally(() => {
+        setIsInfoTooltipOpen(true);
+      })
   }
 
   function handleAddPlaceSubmit(data) {
@@ -172,22 +176,20 @@ function App() {
   function handleEditAvatarClick() {
     setisEditAvatarPopupOpen(true);
   }
-  function handleInfoTooltipOpen() {
-    setisInfoTooltipOpen(true);
-  }
+
   function closeAllPopups() {
     setisEditProfilePopupOpen(false);
     setisAddPlacePopupOpen(false);
     setisEditAvatarPopupOpen(false);
     setselectedCard(null);
-    setisInfoTooltipOpen(false);
+    setIsInfoTooltipOpen(false);
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="content">
-          <Header userData={userData} />
+          <Header userData={userData} userEmail={userEmail} />
           <Routes>
             <Route
               exact
@@ -208,11 +210,11 @@ function App() {
             />
             <Route
               path="/signup"
-              element={<Register onInfoTooltip={handleInfoTooltipOpen} handleRegister={handleRegister} />}
+              element={<Register handleRegister={handleRegister} />}
             />
             <Route
               path="/signin"
-              element={<Login handleLogin={() => setisLoggedIn(true)} />}
+              element={<Login setUserEmail={setUserEmail} handleLogin={() => setisLoggedIn(true)} />}
             />
           </Routes>
           <Footer />

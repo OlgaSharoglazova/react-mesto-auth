@@ -56,7 +56,6 @@ function Register({ onInfoTooltip, handleRegister }) {
           <button
             className="auth__button"
             type="submit"
-            onClick={onInfoTooltip}
           >
             Зарегистрироваться
           </button>
