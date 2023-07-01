@@ -102,10 +102,9 @@ function App() {
       .login(email, password)
       .then((data) => {
         localStorage.setItem("jwt", data.token);
-        handleLogin();
         navigate("/");
-        setisLoggedIn(true);
         setEmail(email);
+        setisLoggedIn(true);
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   }
