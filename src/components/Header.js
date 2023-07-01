@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-function Header({ userData }) {
+function Header({ email }) {
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Header({ userData }) {
       <ul className="header__navigation">
         {location.pathname === "/" && (
           <li>
-            <p className="header__email">{userData.data?.email}</p>
+            <p className="header__email">{email}</p>
           </li>
         )}
         {location.pathname === "/" && (

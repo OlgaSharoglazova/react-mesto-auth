@@ -29,7 +29,7 @@ function App() {
   const [isLoggedIn, setisLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({});
   const [isSuccess, setIsSuccess] = React.useState(false);
-  const [userEmail, setUserEmail] = React.useState("");
+  const [email, setEmail] = React.useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -94,7 +94,20 @@ function App() {
       })
       .finally(() => {
         setIsInfoTooltipOpen(true);
+      });
+  }
+
+  function handleLogin(email, password) {
+    auth
+      .login(email, password)
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        handleLogin();
+        navigate("/");
+        setisLoggedIn(true);
+        setEmail(email);
       })
+      .catch((err) => console.log(`Ошибка: ${err}`));
   }
 
   function handleAddPlaceSubmit(data) {
@@ -106,7 +119,7 @@ function App() {
       .then(() => {
         closeAllPopups();
       })
-      .catch((err) => console.log(`Ошибка: ${err}`))
+      .catch((err) => console.log(`Ошибка: ${err}`));
   }
 
   function handleCardLike(card) {
@@ -149,8 +162,6 @@ function App() {
     setselectedCard(selectedCard);
   }
 
- 
-
   function handleUpdateUser(dataUser) {
     api
       .editProfile(dataUser)
@@ -185,7 +196,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="content">
-          <Header userData={userData} userEmail={userEmail} />
+          <Header userData={userData} email={email} />
           <Routes>
             <Route
               exact
@@ -210,7 +221,7 @@ function App() {
             />
             <Route
               path="/signin"
-              element={<Login setUserEmail={setUserEmail} handleLogin={() => setisLoggedIn(true)} />}
+              element={<Login handleLogin={handleLogin} />}
             />
           </Routes>
           <Footer />
