@@ -76,12 +76,7 @@ function App() {
     api
       .getInitialCards(cards)
       .then((cards) => {
-        setCards(
-          cards.map((card) => ({
-            card: card,
-            cardId: card._id,
-          }))
-        );
+        setCards(cards);
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   }
@@ -111,7 +106,7 @@ function App() {
       .then(() => {
         closeAllPopups();
       })
-      .catch((err) => console.log(`Ошибка: ${err}`));
+      .catch((err) => console.log(`Ошибка: ${err}`))
   }
 
   function handleCardLike(card) {
@@ -125,6 +120,15 @@ function App() {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
         );
+      })
+      .catch((err) => console.log(`Ошибка: ${err}`));
+  }
+
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) => state.filter((item) => item._id !== card._id));
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   }
@@ -145,14 +149,7 @@ function App() {
     setselectedCard(selectedCard);
   }
 
-  function handleCardDelete(card) {
-    api
-      .deleteCard(card._id)
-      .then(() => {
-        setCards((state) => state.filter((item) => item._id !== card._id));
-      })
-      .catch((err) => console.log(`Ошибка: ${err}`));
-  }
+ 
 
   function handleUpdateUser(dataUser) {
     api
