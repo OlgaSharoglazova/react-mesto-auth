@@ -45,6 +45,7 @@ function App() {
         setUserData(data);
         setisLoggedIn(true);
         navigate(location.pathname);
+        setEmail(data.data.email);
       })
       .catch((err) => {
         setisLoggedIn(false);
